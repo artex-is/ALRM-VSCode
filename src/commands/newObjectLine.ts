@@ -81,10 +81,10 @@ function checkFileType(fileContent: string): FileInfo {
   }
 
   return {
-    objectType,
-    objectId,
+    objectType: objectType,
+    objectId: objectId,
     objectStartIndex: match.index,
-    extendsObjectName,
+    extendsObjectName: extendsObjectName,
   };
 }
 
