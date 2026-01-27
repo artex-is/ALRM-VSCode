@@ -33,6 +33,7 @@ export type CreateBCExtensionObjectLineRequest = {
   objectType: string;
   objectID: number;
   fieldOrValueID: number;
+  extendsObjectName: string;
   extension: Extension;
 };
 

@@ -88,6 +88,7 @@ export default class ExtensionService {
     extension: Extension | null,
     objectType: ObjectType,
     objectId: number,
+    extendsObjectName = "",
     existingFieldOrValueId = 0,
   ): Promise<number | null> {
     if (extension === null) {
@@ -100,7 +101,8 @@ export default class ExtensionService {
       extension,
       objectType: objectType.toString(),
       objectID: objectId,
-      fieldOrValueID: existingFieldOrValueId,
+      extendsObjectName: extendsObjectName,
+      fieldOrValueID: existingFieldOrValueId
     });
   }
 

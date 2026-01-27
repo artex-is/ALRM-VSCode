@@ -63,7 +63,7 @@ export async function synchronize(switchIDs = false): Promise<void> {
             console.log(errors);
             showErrorMessage(
               `Some of object/field IDs of ${extension?.code} weren't switched due to following problems:\n` +
-                errors,
+              errors,
             );
           } else {
             showInformationMessage(
@@ -75,7 +75,7 @@ export async function synchronize(switchIDs = false): Promise<void> {
             console.log(errors);
             showErrorMessage(
               `Synchronization of ${extension?.code} has finished with errors:\n` +
-                errors,
+              errors,
             );
           } else {
             showInformationMessage(
@@ -193,12 +193,12 @@ async function scanDirectory(
                     } catch (error) {
                       throw new Error(
                         "ID " +
-                          oldObjectID +
-                          " in file " +
-                          scannedItemWithFullPath +
-                          " can not be replaced by " +
-                          newObjectID +
-                          ".",
+                        oldObjectID +
+                        " in file " +
+                        scannedItemWithFullPath +
+                        " can not be replaced by " +
+                        newObjectID +
+                        ".",
                       );
                     }
                   }
@@ -236,12 +236,12 @@ async function scanDirectory(
                 } catch (error) {
                   throw new Error(
                     "Field ID " +
-                      oldFieldID +
-                      " in file " +
-                      scannedItemWithFullPath +
-                      " can not be replaced by " +
-                      newFieldID +
-                      ".",
+                    oldFieldID +
+                    " in file " +
+                    scannedItemWithFullPath +
+                    " can not be replaced by " +
+                    newFieldID +
+                    ".",
                   );
                 }
               }
@@ -271,12 +271,12 @@ async function scanDirectory(
                 } catch (error) {
                   throw new Error(
                     "Value ID " +
-                      oldFieldID +
-                      " in file " +
-                      scannedItemWithFullPath +
-                      " can not be replaced by " +
-                      newFieldID +
-                      ".",
+                    oldFieldID +
+                    " in file " +
+                    scannedItemWithFullPath +
+                    " can not be replaced by " +
+                    newFieldID +
+                    ".",
                   );
                 }
               }
@@ -287,7 +287,7 @@ async function scanDirectory(
               if (scanForObject) {
                 throw new Error(
                   "Could not determine file type, name or ID in file " +
-                    scannedItemWithFullPath,
+                  scannedItemWithFullPath,
                 );
               }
               if (
@@ -298,8 +298,8 @@ async function scanDirectory(
               ) {
                 throw new Error(
                   "File " +
-                    scannedItemWithFullPath +
-                    " is not valid AL file or this file is not well-formated.",
+                  scannedItemWithFullPath +
+                  " is not valid AL file or this file is not well-formated.",
                 );
               }
               if (
@@ -308,8 +308,8 @@ async function scanDirectory(
               ) {
                 throw new Error(
                   "File " +
-                    scannedItemWithFullPath +
-                    " is not valid AL file or this file is not well-formated.",
+                  scannedItemWithFullPath +
+                  " is not valid AL file or this file is not well-formated.",
                 );
               }
               break;
@@ -406,11 +406,11 @@ async function tryScanObject(
 
     console.log(
       "Registering Object type: " +
-        createBCExtensionObjectRequest.objectType +
-        ", object ID: " +
-        createBCExtensionObjectRequest.objectID +
-        ", object name: " +
-        createBCExtensionObjectRequest.objectName,
+      createBCExtensionObjectRequest.objectType +
+      ", object ID: " +
+      createBCExtensionObjectRequest.objectID +
+      ", object name: " +
+      createBCExtensionObjectRequest.objectName,
     );
     await service.createExtensionObject(createBCExtensionObjectRequest);
 
@@ -502,10 +502,10 @@ async function scanObjectFields(
             if (extensionObjectLine?.alternateFieldID !== +fieldID) {
               throw new Error(
                 "Field ID " +
-                  fieldID +
-                  " in object ID " +
-                  objectID +
-                  " can not be switched.",
+                fieldID +
+                " in object ID " +
+                objectID +
+                " can not be switched.",
               );
             }
             oldFieldID = extensionObjectLine?.alternateFieldID;
@@ -584,10 +584,10 @@ async function scanObjectValues(
           if (extensionObjectLine?.alternateFieldID !== +valueID) {
             throw new Error(
               "Field ID " +
-                valueID +
-                " in object ID " +
-                objectID +
-                " can not be switched.",
+              valueID +
+              " in object ID " +
+              objectID +
+              " can not be switched.",
             );
           }
           oldValueID = extensionObjectLine?.alternateFieldID;
@@ -618,6 +618,7 @@ async function registerALFieldOrValueID(
     extension,
     translateObjectType(objectType),
     +objectId,
+    "",
     +fieldOrValueID,
   );
 }
