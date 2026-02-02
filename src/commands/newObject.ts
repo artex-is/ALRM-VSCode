@@ -41,7 +41,11 @@ export default async function newObjectCommand(): Promise<void> {
 
     const snippetFileContent = readSnippetFile(objectType);
 
-    const maxLength = 30;
+    let maxLength = 30;
+
+    if (objectType === ObjectType.PermissionSet) {
+      maxLength = 20;
+    }
 
     const objectName = await vscode.window.showInputBox({
       prompt: `Enter ${ObjectType[objectType]} name`,
