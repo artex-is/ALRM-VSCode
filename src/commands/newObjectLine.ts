@@ -15,6 +15,7 @@ interface FileInfo {
   objectType: ObjectType;
   objectId: number;
   objectStartIndex: number;
+  extendsObjectName: string;
 }
 
 export default async function newObjectLineCommand(): Promise<void> {
@@ -40,6 +41,7 @@ export default async function newObjectLineCommand(): Promise<void> {
       extension,
       fileInfo.objectType,
       fileInfo.objectId,
+      fileInfo.extendsObjectName
     );
     if (newLineId !== null) {
       await insertNewLine(fileInfo.objectType, newLineId);
@@ -50,9 +52,9 @@ export default async function newObjectLineCommand(): Promise<void> {
 }
 
 function checkFileType(fileContent: string): FileInfo {
-  const re = /(tableextension|enumextension) (\d+) ".*" extends/gm;
+  const re = /(tableextension|enumextension) (\d+) ".*?" extends (?:"([^"]+)"|([A-Za-z_]\w*))/gm;
   const match = re.exec(fileContent);
-  if (!match || match.length !== 3) {
+  if (!match) {
     throw new Error("Unsupported file type!");
   }
 
@@ -72,10 +74,17 @@ function checkFileType(fileContent: string): FileInfo {
   if (isNaN(objectId)) {
     throw new Error("Unsupported file type!");
   }
+
+  const extendsObjectName = (match[3] ?? match[4] ?? "").trim();
+  if (!extendsObjectName) {
+    throw new Error("Missing name of extended object!");
+  }
+
   return {
     objectType: objectType,
     objectId: objectId,
     objectStartIndex: match.index,
+    extendsObjectName: extendsObjectName,
   };
 }
 
@@ -97,11 +106,11 @@ async function insertNewLine(objectType: ObjectType, lineId: number) {
 function buildTableFieldSnippet(fieldId: number): vscode.SnippetString {
   return new vscode.SnippetString(
     `field(${fieldId}` +
-      '; "${2:MyField}"; ${3|Blob,BigInteger,Boolean,Code[50],Date,DateFormula,Decimal,Duration,Integer,Guid,Media,MediaSet,Option,RecordID,TableFilter,Text[50],Time|})\n' +
-      "{\n" +
-      "\tCaption = '${2:MyField}';\n" +
-      "\tDataClassification = ${4|ToBeClassified,CustomerContent,EndUserIdentifiableInformation,AccountData,EndUserPseudonymousIdentifiers,OrganizationIdentifiableInformation,SystemMetadata|};\n" +
-      "}\n",
+    '; "${2:MyField}"; ${3|Blob,BigInteger,Boolean,Code[50],Date,DateFormula,Decimal,Duration,Integer,Guid,Media,MediaSet,Option,RecordID,TableFilter,Text[50],Time|})\n' +
+    "{\n" +
+    "\tCaption = '${2:MyField}';\n" +
+    "\tDataClassification = ${4|ToBeClassified,CustomerContent,EndUserIdentifiableInformation,AccountData,EndUserPseudonymousIdentifiers,OrganizationIdentifiableInformation,SystemMetadata|};\n" +
+    "}\n",
   );
 }
 

@@ -155,11 +155,12 @@ export default class IntegrationApiv1n0 implements IIntegrationApi {
     const response = await this.bcClient.callAction(
       Resources.extension,
       createBCExtensionObjectLineRequest.extension.code,
-      "createObjectFieldOrValue",
+      "createObjectFieldOrValueV2",
       {
         objectType: createBCExtensionObjectLineRequest.objectType,
         objectID: createBCExtensionObjectLineRequest.objectID,
         createdBy: settings.apiUsername?.substring(0, 50) ?? "",
+        extendsObjectName: createBCExtensionObjectLineRequest.extendsObjectName,
       },
     );
     const objectLineId = Number(response);

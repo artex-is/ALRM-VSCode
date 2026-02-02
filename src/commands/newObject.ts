@@ -41,17 +41,24 @@ export default async function newObjectCommand(): Promise<void> {
 
     const snippetFileContent = readSnippetFile(objectType);
 
-    let objectName: string | undefined;
-    // eslint-disable-next-line no-constant-condition
-    while (true) {
-      objectName = await getUserInput(`Enter ${ObjectType[objectType]} name`);
-      if (objectName === undefined) {
-        return; // canceled
-      }
-      if (objectName.length <= 30) {
-        break;
-      }
-      showErrorMessage("Maximal length of AL Object name has to be 30 chars.");
+    let maxLength = 30;
+
+    if (objectType === ObjectType.PermissionSet) {
+      maxLength = 20;
+    }
+
+    const objectName = await vscode.window.showInputBox({
+      prompt: `Enter ${ObjectType[objectType]} name`,
+      validateInput: (value: string) => {
+        if (value.length > maxLength) {
+          return `Maximum length of AL Object name has to be ${maxLength} chars. You entered ${value.length}.`;
+        }
+        return null;
+      },
+    });
+
+    if (objectName === undefined) {
+      return; // canceled
     }
 
     const newObjectId = await service.createExtensionObject({
